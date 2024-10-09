@@ -6,13 +6,20 @@ class App extends React.Component {
 
     this.state = {
       // state initialization
-      name: 'React',
+      count: 0,
     };
   }
 
   // method override to render the component
   render() {
-    return <h1>Hello, {this.state.name}</h1>
+    return (
+      <div>
+        <h1>Counter: {this.state.count}</h1>
+        <button
+          onClick={() => this.setState({ count: this.state.count + 1 })}
+        >Increase</button>
+      </div>
+    )
   }
 }
 
