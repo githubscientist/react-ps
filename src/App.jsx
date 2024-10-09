@@ -1,34 +1,30 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react"
+import React from "react";
 
-const App = () => {
-
-  const [posts, setPosts] = useState([]);
-  const [count, setCount] = useState(0);
-
-  // this will run when the component renders
-  useEffect(() => {
-    fetch(('https://66c2e608d057009ee9be3fd7.mockapi.io/posts'))
-      .then((response) => response.json())
-      .then((data) => {
-        setPosts(data);
-      });
-  }, []);
-
-  // this will run when the component renders and whenever there is a state change in posts
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
-
-  useEffect(() => {
-    console.log('Component rendered');
-  });
+const Child = React.memo(({ count, name }) => {
 
   return (
     <div>
-      <h1>Count: {count}</h1>
-      <button onClick={() => setCount(count + 1)}>Counter</button>
+      <h2>Child</h2>
+      <p>Count: {count}</p>
     </div>
+  )
+});
 
+const App = () => {
+
+  const [count, setCount] = useState(0);
+
+  const memoizedCount = useMemo(() => count, [count]);
+
+  return (
+    <div>
+      <h1>App</h1>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      <Child
+        count={memoizedCount}
+      />
+    </div>
   )
 }
 
