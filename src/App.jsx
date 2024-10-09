@@ -1,84 +1,35 @@
-import React from 'react';
+import { useEffect, useState } from "react";
 
-class Counter extends React.Component {
+const App = () => {
 
-  // lifecycle method to log the component mounting
-  componentDidMount() {
-    console.log('Component mounted');
-  }
+  const [posts, setPosts] = useState([]);
+  const [count, setCount] = useState(0);
 
-  // component unmounting lifecycle method
-  componentWillUnmount() {
-    console.log('Component unmounted');
-  }
-
-  // component updating lifecycle method
-  componentDidUpdate() {
-    console.log('Component updated');
-  }
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Counter: {this.props.count}</h1>
-      </div>
-    )
-  }
-}
-
-class App extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // state initialization
-      count: 0,
-      showCounter: true,
-    };
-  }
-
-  // method override to render the component
-  render() {
-
-    // method to increase the count
-    const increase = () => {
-      this.setState({
-        count: this.state.count + 1,
+  // this will run when the component renders
+  useEffect(() => {
+    fetch(('https://66c2e608d057009ee9be3fd7.mockapi.io/posts'))
+      .then((response) => response.json())
+      .then((data) => {
+        setPosts(data);
       });
-    }
+  }, []);
 
-    return (
-      <div>
-        {
-          this.state.showCounter &&
-          (
-            <div>
-              <Counter count={this.state.count} />
-              <button
-                onClick={increase}
-              >Increase</button>
-            </div>
-          )
-        }
-        <br />
-        <button
-          onClick={() => this.setState({
-            ...this.state,
-            showCounter: !this.state.showCounter,
-          })}
-        >
-          {
-            this.state.showCounter ? 'Hide Counter' : 'Show Counter'
-          }
-        </button>
-      </div>
-    )
-  }
+  // this will run when the component renders and whenever there is a state change in posts
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
+
+  useEffect(() => {
+    console.log('Component rendered');
+  });
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Counter</button>
+    </div>
+
+  )
 }
 
 export default App;
