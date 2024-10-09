@@ -1,6 +1,22 @@
 import React from 'react';
 
 class Counter extends React.Component {
+
+  // lifecycle method to log the component mounting
+  componentDidMount() {
+    console.log('Component mounted');
+  }
+
+  // component unmounting lifecycle method
+  componentWillUnmount() {
+    console.log('Component unmounted');
+  }
+
+  // component updating lifecycle method
+  componentDidUpdate() {
+    console.log('Component updated');
+  }
+
   constructor(props) {
     super(props);
   }
@@ -15,12 +31,14 @@ class Counter extends React.Component {
 }
 
 class App extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
       // state initialization
       count: 0,
+      showCounter: true,
     };
   }
 
@@ -36,12 +54,28 @@ class App extends React.Component {
 
     return (
       <div>
-        <Counter
-          count={this.state.count}
-        />
+        {
+          this.state.showCounter &&
+          (
+            <div>
+              <Counter count={this.state.count} />
+              <button
+                onClick={increase}
+              >Increase</button>
+            </div>
+          )
+        }
+        <br />
         <button
-          onClick={increase}
-        >Increase</button>
+          onClick={() => this.setState({
+            ...this.state,
+            showCounter: !this.state.showCounter,
+          })}
+        >
+          {
+            this.state.showCounter ? 'Hide Counter' : 'Show Counter'
+          }
+        </button>
       </div>
     )
   }
