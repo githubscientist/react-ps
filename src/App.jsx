@@ -1,5 +1,19 @@
 import React from 'react';
 
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Counter: {this.props.count}</h1>
+      </div>
+    )
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +36,9 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>Counter: {this.state.count}</h1>
+        <Counter
+          count={this.state.count}
+        />
         <button
           onClick={increase}
         >Increase</button>
